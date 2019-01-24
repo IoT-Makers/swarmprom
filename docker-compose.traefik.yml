@@ -4,7 +4,7 @@ networks:
   net:
     driver: overlay
     attachable: true
-  traefik-public:
+  traefik-net:
     external: true
 
 volumes:
@@ -89,8 +89,8 @@ services:
         - traefik.frontend.rule=Host:grafana.${DOMAIN}
         - traefik.enable=true
         - traefik.port=3000
-        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
-        - traefik.docker.network=traefik-public
+        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-net}
+        - traefik.docker.network=traefik-net
         # Traefik service that listens to HTTP
         - traefik.redirectorservice.frontend.entryPoints=http
         - traefik.redirectorservice.frontend.redirect.entryPoint=https
@@ -99,7 +99,7 @@ services:
     networks:
       - default
       - net
-      - traefik-public
+      - traefik-net
 
   alertmanager:
     image: stefanprodan/swarmprom-alertmanager:v0.14.0
@@ -129,8 +129,8 @@ services:
         - traefik.frontend.rule=Host:alertmanager.${DOMAIN}
         - traefik.enable=true
         - traefik.port=9093
-        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
-        - traefik.docker.network=traefik-public
+        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-net}
+        - traefik.docker.network=traefik-net
         # Traefik service that listens to HTTP
         - traefik.redirectorservice.frontend.entryPoints=http
         - traefik.redirectorservice.frontend.redirect.entryPoint=https
@@ -140,7 +140,7 @@ services:
     networks:
       - default
       - net
-      - traefik-public
+      - traefik-net
 
   unsee:
     image: cloudflare/unsee:v0.8.0
@@ -155,8 +155,8 @@ services:
         - traefik.frontend.rule=Host:unsee.${DOMAIN}
         - traefik.enable=true
         - traefik.port=8080
-        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
-        - traefik.docker.network=traefik-public
+        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-net}
+        - traefik.docker.network=traefik-net
         # Traefik service that listens to HTTP
         - traefik.redirectorservice.frontend.entryPoints=http
         - traefik.redirectorservice.frontend.redirect.entryPoint=https
@@ -166,7 +166,7 @@ services:
     networks:
       - default
       - net
-      - traefik-public
+      - traefik-net
 
   node-exporter:
     image: stefanprodan/swarmprom-node-exporter:v0.16.0
@@ -223,8 +223,8 @@ services:
         - traefik.frontend.rule=Host:prometheus.${DOMAIN}
         - traefik.enable=true
         - traefik.port=9090
-        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
-        - traefik.docker.network=traefik-public
+        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-net}
+        - traefik.docker.network=traefik-net
         # Traefik service that listens to HTTP
         - traefik.redirectorservice.frontend.entryPoints=http
         - traefik.redirectorservice.frontend.redirect.entryPoint=https
@@ -234,4 +234,4 @@ services:
     networks:
       - default
       - net
-      - traefik-public
+      - traefik-net
