@@ -42,7 +42,7 @@ services:
     image: google/cadvisor
     networks:
       - net
-    command: -logtostderr -docker_only
+    command: -logtostderr -docker_only -housekeeping_interval=5s
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/rootfs:ro
